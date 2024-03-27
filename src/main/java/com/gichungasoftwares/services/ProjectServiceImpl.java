@@ -51,6 +51,8 @@ public class ProjectServiceImpl implements ProjectService{
         if (existingProject == null) {
             throw new Exception("Project not found!");
         }
+
+
         //check provided fields from user request
         if(updatedProject.getTitle() != null){
             existingProject.setTitle(updatedProject.getTitle());
@@ -67,13 +69,13 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project assignToUser(Long userId, Long projectId) throws Exception {
+    public Project assignProjectToUser(Long userId, Long projectId) throws Exception {
         // Check if project exists
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Error: Project is not found"));
         if( project == null ){
             throw new Exception("project does not exist");
         }
-        // set project status to assigned and assigned user
+        // set project status to assigned, and the assign to a user
         project.setStatus(ProjectStatus.ASSIGNED);
         project.setAssignedUserId(userId);
         return projectRepository.save(project);
@@ -91,7 +93,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project completeProject(Long projectId) throws Exception {
+    public Project markProjectAsComplete(Long projectId) throws Exception {
         // check if project exists
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Error: Project is not found"));
         if( project == null ){

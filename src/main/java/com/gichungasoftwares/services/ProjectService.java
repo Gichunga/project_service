@@ -12,9 +12,9 @@ public interface ProjectService {
     Project getProjectById(Long id) throws Exception;
     List<Project> getAllProjects(ProjectStatus projectStatus);
     Project updateProject(Long id, Project updatedProject, Long userId) throws Exception;
-    Project assignToUser(Long userId, Long projectId) throws Exception;
+    Project assignProjectToUser(Long userId, Long projectId) throws Exception;
     List<Project> assignedUserProjects(Long userId, ProjectStatus projectStatus);
-    Project completeProject(Long projectId) throws Exception;
+    Project markProjectAsComplete(Long projectId) throws Exception;
     void deleteProject(Long id) throws Exception;
 
 }

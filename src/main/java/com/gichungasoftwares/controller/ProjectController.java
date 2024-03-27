@@ -30,8 +30,8 @@ public class ProjectController {
     }
 
     //get project by provided id
-    @GetMapping("/{id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable("id") Long id) throws Exception {
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Project> getProjectById(@PathVariable("projectId") Long id) throws Exception {
         Project project = projectService.getProjectById(id);
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class ProjectController {
     }
 
     // update task
-    @PutMapping("/{projectId}")
+    @PutMapping("/{projectId}/update")
     public ResponseEntity<Project> updateProject(
             @PathVariable("projectId") Long projectId,
             @RequestBody Project project,
@@ -76,7 +76,7 @@ public class ProjectController {
     }
 
     // mark project as completed
-    @PutMapping("/{projectId}")
+    @PutMapping("/{projectId}/complete")
     public ResponseEntity<Project> completeProject(
             @PathVariable("projectId") Long projectId
     ) throws Exception {
@@ -84,7 +84,7 @@ public class ProjectController {
     }
 
     // delete a project
-    @DeleteMapping("/{projectId}")
+    @DeleteMapping("/{projectId}/delete")
     public ResponseEntity<?> deleteProject(
             @PathVariable("projectId") Long projectId
     ) throws Exception {

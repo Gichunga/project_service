@@ -39,12 +39,13 @@ public class ProjectController {
     //get all projects
     @GetMapping
     public ResponseEntity<List<Project>> getAllProjects(
-            @RequestParam(required = false) ProjectStatus projectStatus) {
+            @RequestParam(required = false) ProjectStatus projectStatus,
+            @RequestHeader("Authorization") String jwt) {
         List<Project> projects = projectService.getAllProjects(projectStatus);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-    // update task
+    // update project - only admin
     @PutMapping("/{projectId}/update")
     public ResponseEntity<Project> updateProject(
             @PathVariable("projectId") Long projectId,
@@ -52,16 +53,19 @@ public class ProjectController {
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
         UserDto user = userService.findUserByJwt(jwt);
-        return new ResponseEntity<>(projectService.updateProject(projectId, project, user.getId()), HttpStatus.OK);
+        Project updatedProject = projectService.updateProject(projectId, project, user.getRole());
+        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
 
-    // assign project to user
+    // assign project to user - only admin can assign projects to users
     @PutMapping("/{projectId}/user/{userId}/assignee")
     public ResponseEntity<Project> assignProjectToUser(
             @PathVariable("projectId") Long projectId,
-            @PathVariable("userId") Long userId
+            @PathVariable("userId") Long userId,
+            @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        return new ResponseEntity<>(projectService.assignProjectToUser(userId, projectId), HttpStatus.OK);
+        UserDto user = userService.findUserByJwt(jwt);
+        return new ResponseEntity<>(projectService.assignProjectToUser(userId, projectId, user.getRole()), HttpStatus.OK);
     }
 
     // get projects assigned to user

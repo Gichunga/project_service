@@ -11,8 +11,8 @@ public interface ProjectService {
     Project createProject(Project project, String requesterRole) throws Exception;
     Project getProjectById(Long id) throws Exception;
     List<Project> getAllProjects(ProjectStatus projectStatus);
-    Project updateProject(Long id, Project updatedProject, Long userId) throws Exception;
-    Project assignProjectToUser(Long userId, Long projectId) throws Exception;
+    Project updateProject(Long id, Project updatedProject, String requesterRole) throws Exception;
+    Project assignProjectToUser(Long userId, Long projectId, String requesterRole) throws Exception;
     List<Project> assignedUserProjects(Long userId, ProjectStatus projectStatus);
     Project markProjectAsComplete(Long projectId) throws Exception;
     void deleteProject(Long id) throws Exception;

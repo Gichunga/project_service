@@ -82,17 +82,24 @@ public class ProjectController {
     // mark project as completed
     @PutMapping("/{projectId}/complete")
     public ResponseEntity<Project> completeProject(
-            @PathVariable("projectId") Long projectId
+            @PathVariable("projectId") Long projectId,
+            @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        return new ResponseEntity<>(projectService.markProjectAsComplete(projectId), HttpStatus.OK);
+        UserDto loggedUser = userService.findUserByJwt(jwt);
+        String requesterRole = loggedUser.getRole();
+        Long requesterId = loggedUser.getId();
+        return new ResponseEntity<>(projectService.markProjectAsComplete(projectId, requesterId, requesterRole), HttpStatus.OK);
     }
 
     // delete a project
     @DeleteMapping("/{projectId}/delete")
     public ResponseEntity<?> deleteProject(
-            @PathVariable("projectId") Long projectId
+            @PathVariable("projectId") Long projectId,
+            @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        projectService.deleteProject(projectId);
+        //only admins can delete projects
+        UserDto loggedUser = userService.findUserByJwt(jwt);
+        projectService.deleteProject(projectId, loggedUser.getRole());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

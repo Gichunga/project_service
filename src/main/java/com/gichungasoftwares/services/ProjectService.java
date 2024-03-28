@@ -14,7 +14,7 @@ public interface ProjectService {
     Project updateProject(Long id, Project updatedProject, String requesterRole) throws Exception;
     Project assignProjectToUser(Long userId, Long projectId, String requesterRole) throws Exception;
     List<Project> assignedUserProjects(Long userId, ProjectStatus projectStatus);
-    Project markProjectAsComplete(Long projectId) throws Exception;
-    void deleteProject(Long id) throws Exception;
+    Project markProjectAsComplete(Long projectId, Long requesterId, String requesterRole) throws Exception;
+    void deleteProject(Long id, String requesterRole) throws Exception;
 
 }
